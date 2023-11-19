@@ -13,47 +13,15 @@
 </head>  
 <body>  
     <button onclick="askQuestion()">问问题</button>  
+    <div id="questionBox"></div>  
   
     <script>  
         function askQuestion() {  
             var question = prompt("请输入你的问题：", "");  
             if (question != null && question != "") {  
-                sendQuestionToServer(question);  
+                document.getElementById("questionBox").innerHTML = question;  
             }  
         }  
-  
-        function sendQuestionToServer(question) {  
-            fetch('save_question.php', {  
-                method: 'POST',  
-                headers: {  
-                    'Content-Type': 'application/x-www-form-urlencoded'  
-                },  
-                body: 'question=' + encodeURIComponent(question)  
-            })  
-            .then(response => response.text())  
-            .then(data => {  
-                console.log(data); // 打印服务器返回的响应数据  
-            })  
-            .catch((error) => {  
-                console.error('Error:', error);  
-            });  
-        }  
-    </script>  
-    <div id="result"></div>  
-    <script>  
-        // 使用定时器每隔一段时间检查一次保存结果，并在页面上显示保存成功的信息  
-        setInterval(function() {  
-            fetch('save_question.php', { method: 'GET' })  
-            .then(response => response.text())  
-            .then(data => {  
-                if (data != '') { // 如果保存成功，显示保存成功的信息  
-                    document.getElementById('result').innerHTML = '问题已保存！';  
-                } else { // 如果未保存成功，继续等待下一次检查  
-                    document.getElementById('result').innerHTML = '';  
-                }  
-            })  
-            .catch((error) => { console.error('Error:', error); });  
-        }, 2000); // 每2秒钟检查一次保存结果  
     </script>  
 </body>  
 </html>
