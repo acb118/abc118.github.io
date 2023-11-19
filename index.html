@@ -1,26 +1,46 @@
 <!DOCTYPE html>  
 <html>  
 <head>  
-    <title>动态更新内容</title>  
-    <script>  
-        function updateContent() {  
-            // 发送异步请求获取新的内容  
-            var xhr = new XMLHttpRequest();  
-            xhr.open("GET", "your-script.php", true); // 替换为生成内容的脚本地址  
-            xhr.onreadystatechange = function() {  
-                if (xhr.readyState == 4 && xhr.status == 200) {  
-                    // 获取到新的内容后，将其更新到页面上的特定区域  
-                    document.getElementById("content").innerHTML = xhr.responseText;  
-                }  
-            }  
-            xhr.send();  
+  <title>动态更新内容</title>  
+  <script>  
+    function updateContent() {  
+      // 发送异步请求获取新的内容  
+      var xhr = new XMLHttpRequest();  
+      xhr.open("GET", "your-script.php", true); // 替换为生成内容的脚本地址  
+      xhr.onreadystatechange = function() {  
+        if (xhr.readyState == 4 && xhr.status == 200) {  
+          // 获取到新的内容后，将其更新到页面上的特定区域  
+          document.getElementById("content").innerHTML = xhr.responseText;  
         }  
-        // 在页面加载时执行一次更新内容的操作  
-        window.onload = updateContent;  
-    </script>  
+      }  
+      xhr.send();  
+    }  
+  
+    function addContent(content) {  
+      // 将用户输入的内容保存并输出在网页上  
+      document.getElementById("content").innerHTML += "<p>" + content + "</p>";  
+      // 同步内容到localStorage中  
+      localStorage.setItem("content", document.getElementById("content").innerHTML);  
+    }  
+  
+    function synchronization() {  
+      // 从localStorage中读取内容并更新到页面上  
+      var storedContent = localStorage.getItem("content");  
+      if (storedContent) {  
+        document.getElementById("content").innerHTML = storedContent;  
+      }  
+    }  
+  
+    // 在页面加载时执行一次更新内容的操作，并同步内容到localStorage中  
+    window.onload = function() {  
+      updateContent();  
+      synchronization();  
+    };  
+  </script>  
 </head>  
 <body>  
-    <button onclick="updateContent()">更新内容</button>  
-    <div id="content"></div> <!-- 页面上显示内容的区域 -->  
+  <button onclick="updateContent()">更新内容</button>  
+  <button onclick="addContent(prompt('请输入要添加的内容：'))">添加内容</button>  
+  <div id="content"></div> <!-- 页面上显示内容的区域 -->  
 </body>  
 </html>
