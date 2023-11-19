@@ -1,27 +1,26 @@
 <!DOCTYPE html>  
 <html>  
 <head>  
-    <title>社交圈按钮</title>  
-    <style>  
-        .my-btn {  
-            background-color: blue;  
-            color: white;  
-            font-size: 18px;  
-            padding: 10px 20px;  
+    <title>动态更新内容</title>  
+    <script>  
+        function updateContent() {  
+            // 发送异步请求获取新的内容  
+            var xhr = new XMLHttpRequest();  
+            xhr.open("GET", "your-script.php", true); // 替换为生成内容的脚本地址  
+            xhr.onreadystatechange = function() {  
+                if (xhr.readyState == 4 && xhr.status == 200) {  
+                    // 获取到新的内容后，将其更新到页面上的特定区域  
+                    document.getElementById("content").innerHTML = xhr.responseText;  
+                }  
+            }  
+            xhr.send();  
         }  
-    </style>  
+        // 在页面加载时执行一次更新内容的操作  
+        window.onload = updateContent;  
+    </script>  
 </head>  
 <body>  
-    <button onclick="askQuestion()">问问题</button>  
-    <div id="questionBox"></div>  
-  
-    <script>  
-        function askQuestion() {  
-            var question = prompt("请输入你的问题：", "");  
-            if (question != null && question != "") {  
-                document.getElementById("questionBox").innerHTML = question;  
-            }  
-        }  
-    </script>  
+    <button onclick="updateContent()">更新内容</button>  
+    <div id="content"></div> <!-- 页面上显示内容的区域 -->  
 </body>  
 </html>
